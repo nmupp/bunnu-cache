@@ -20,6 +20,14 @@ class BunnuDbSpec extends FunSpecLike with Matchers with BeforeAndAfterEach {
           val actor = ref.underlyingActor
           actor.map.get("narsi") should equal (Some("pranu"))
         }
+
+        it("should place the last value sent to the actor") {
+          val ref = TestActorRef(new BunnuDb)
+          ref ! SetRequest("rian", "Raju")
+          ref ! SetRequest("rian", "Muppalla")
+          val actor = ref.underlyingActor
+          actor.map.get("rian") should equal (Some("Muppalla"))
+        }
       }
     }
 }
