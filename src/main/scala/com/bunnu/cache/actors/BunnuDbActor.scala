@@ -9,7 +9,7 @@ import scala.collection.mutable
 /**
   * Created by nmupp on 12/16/16.
   */
-class BunnuDb extends Actor {
+class BunnuDBActor extends Actor {
 
   val map = new mutable.HashMap[String, Object]()
   val log = Logging(context.system, this)
