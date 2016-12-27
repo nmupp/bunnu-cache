@@ -15,9 +15,11 @@ class BunnuDBActor extends Actor {
   val log = Logging(context.system, this)
 
   override def receive: Receive = {
+    case SetRequest(key, value) if key.isEmpty => log.info(s"Received empty key")
     case SetRequest(key, value) =>
       log.info(s"The received message is $key and $value")
       map.put(key, value)
+      sender() ! value
     case o => log.info(s"received unknown messages: $o")
   }
 }
