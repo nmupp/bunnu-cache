@@ -1,8 +1,8 @@
 package com.bunnu.cache.actors
 
-import akka.actor.Actor
+import akka.actor.{Actor, Status}
 import akka.event.Logging
-import com.bunnu.cache.messages.SetRequest
+import com.bunnu.cache.messages.{GetRequest, SetRequest}
 
 import scala.collection.mutable
 
@@ -15,11 +15,19 @@ class BunnuDBActor extends Actor {
   val log = Logging(context.system, this)
 
   override def receive: Receive = {
-    case SetRequest(key, value) if key.isEmpty => log.info(s"Received empty key")
+    case GetRequest(key) =>
+      val value = map.get(key)
+      value match {
+        case Some(keyValue) => sender() ! keyValue
+        case None => sender() ! Status.Failure(new Exception("Key not found"))
+      }
     case SetRequest(key, value) =>
       log.info(s"The received message is $key and $value")
       map.put(key, value)
-      sender() ! value
-    case o => log.info(s"received unknown messages: $o")
+      sender() ! Status.Success
+
+    case o =>
+      log.info(s"received unknown messages: $o")
+      sender() ! Status.Failure(new Exception(""))
   }
 }
