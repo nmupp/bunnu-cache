@@ -28,6 +28,6 @@ class BunnuDBActor extends Actor {
 
     case o =>
       log.info(s"received unknown messages: $o")
-      sender() ! Status.Failure(new Exception(""))
+      sender() ! Status.Failure(new Exception("Unknown message"))
   }
 }
