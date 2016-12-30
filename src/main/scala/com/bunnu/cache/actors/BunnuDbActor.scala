@@ -16,6 +16,7 @@ class BunnuDBActor extends Actor {
 
   override def receive: Receive = {
     case GetRequest(key) =>
+      log.info("Received the get request")
       val value = map.get(key)
       value match {
         case Some(keyValue) => sender() ! keyValue
@@ -28,6 +29,6 @@ class BunnuDBActor extends Actor {
 
     case o =>
       log.info(s"received unknown messages: $o")
-      sender() ! Status.Failure(new Exception("Unknown message"))
+//      sender() ! Status.Failure(new Exception("Unknown message"))
   }
 }
