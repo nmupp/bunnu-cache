@@ -5,3 +5,5 @@ package com.bunnu.cache.messages
   */
 case class SetRequest(key: String, value: Object)
 case class GetRequest(key: String)
+case class SetIfNotExists(key: String, value: Object)
+case class Delete(key: String)
